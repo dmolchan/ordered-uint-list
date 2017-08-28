@@ -3,30 +3,17 @@ package main
 import "testing"
 
 func TestDeserialize(t *testing.T) {
-	return
-}
-
-func TestDeserialize_empty(t *testing.T) {
-	data := []byte{}
-	list, err := Deserialize(data)
-
-	if err == nil {
-		t.Fatalf("Was expecting an error but got one %s", err)
+	data := []byte{
+		0x00, 0x05, // 5
+		0x00, 0x0A, // 10
+		0x00, 0x0F, // 15
 	}
-
-	if e, a := uint(0), list.Length(); e != a {
-		t.Fatalf("Was expecting a list of length %v, got %v", e, a)
-	}
-}
-
-func TestDeserialize_not_empty(t *testing.T) {
-	data := []byte{}
 	list, err := Deserialize(data)
 
 	expected := []uint16{5, 10, 15}
 
 	if err != nil {
-		t.Fatalf("Was expecting an error but got one %s", err)
+		t.Fatalf("Was not expecting an error but got one: %s", err)
 	}
 
 	if e, a := uint(3), list.Length(); e != a {
@@ -40,7 +27,20 @@ func TestDeserialize_not_empty(t *testing.T) {
 	}
 }
 
-func TestDeserialize_invalidBIn(t *testing.T) {
+func TestDeserialize_empty(t *testing.T) {
+	data := []byte{}
+	list, err := Deserialize(data)
+
+	if err == nil {
+		t.Fatalf("Was expecting an error but did not get one")
+	}
+
+	if e, a := uint(0), list.Length(); e != a {
+		t.Fatalf("Was expecting a list of length %v, got %v", e, a)
+	}
+}
+
+func TestDeserialize_invalidBlob(t *testing.T) {
 	data := []byte{
 		0x00, 0x05, // 5
 		0xFF, // only one byte, we are storing 16 bit integers

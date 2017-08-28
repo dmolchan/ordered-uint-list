@@ -17,10 +17,10 @@ func Deserialize(data []byte) (list List, err error) {
 	err = binary.Read(buffer, binary.BigEndian, &value)
 
 	if err != nil {
-		fmt.Errorf("duplicate value %s cannot be inserted", err)
+		err = fmt.Errorf("could not read the input %v", value)
 		return
 	}
 
-	// TODO: this is only got us the first value; it also didn't maek us a list
+	// TODO: this is only got us the first value; it also didn't make us a list
 	return
 }
