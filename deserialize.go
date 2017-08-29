@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 )
 
 // Deserialize will take a binary list
@@ -15,9 +16,10 @@ func Deserialize(data []byte) (list List, err error) {
 
 	err = binary.Read(buffer, binary.BigEndian, &value)
 	if err != nil {
+		err = fmt.Errorf("could not read the input %v", value)
 		return
 	}
 
-	// TODO: this is only got us the first value; it also didn't maek us a list
+	// TODO: this is only got us the first value; it also didn't make us a list
 	return
 }
