@@ -14,7 +14,6 @@ func Deserialize(data []byte) (list List, err error) {
 	buffer := bytes.NewReader(data)
 
 	err = binary.Read(buffer, binary.BigEndian, &value)
-
 	if err != nil {
 		return
 	}
